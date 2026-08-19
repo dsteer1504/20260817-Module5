@@ -1,11 +1,14 @@
 import pandas as pd
 from pathlib import Path
 
-INPUTCustomers = Path(r"C:\Users\Admin\Desktop\20260817-Module5\03_Library SystemCustomers.csv")
-OUTPUTCustomers = Path(r"C:\Users\Admin\Desktop\20260817-Module5\03_Library SystemCustomers Cleaned.csv")
+DATA = Path("/data/cleaning_data_task")
+OUT = Path("/out")
 
-INPUTBooks = Path(r"C:\Users\Admin\Desktop\20260817-Module5\03_Library Systembook.csv")
-OUTPUTBooks = Path(r"C:\Users\Admin\Desktop\20260817-Module5\03_Library SystemBook Cleaned.csv")
+INPUTCustomers = DATA / "03_Library SystemCustomers.csv"
+OUTPUTCustomers = OUT / "CleanedCustomers.csv"
+
+INPUTBooks = DATA / "03_Library Systembook.csv"
+OUTPUTBooks = OUT / "CleanedBooks.csv"
 
 
 def days_between(df, start_col, end_col, new_col="days_between"):
@@ -35,12 +38,13 @@ def CleanCustomers():
     Customers = Customers.reset_index(drop=True)
     Customers.to_csv(OUTPUTCustomers, index=False, encoding="utf-8-sig")
     print(f"wrote {len(Customers):,} cleans rows to {OUTPUTCustomers}")
+    print(Customers)
 
 def CleanBooks():
     Books = pd.read_csv(INPUTBooks)
     print(f"Loaded {len(Books):,} rows from {INPUTBooks}")
 
-      #Remove Duplicates
+    #Remove Duplicates
     dupes = Books.duplicated().sum()
     Books = Books.drop_duplicates()
     print (f"Removed {dupes:,} duplicate rows")
@@ -69,3 +73,9 @@ def CleanBooks():
     Books = Books.reset_index(drop=True)
     Books.to_csv(OUTPUTBooks, index=False, encoding="utf-8-sig")
     print(f"wrote {len(Books):,} cleans rows to {OUTPUTBooks}")
+    print(Books)
+
+
+if __name__ == "__main__":
+    CleanCustomers()
+    CleanBooks()
